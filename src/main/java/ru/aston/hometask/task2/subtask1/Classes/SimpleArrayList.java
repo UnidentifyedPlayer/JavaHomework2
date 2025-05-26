@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class SimpleArrayList<E> {
+
     private E[] elements;
+
     private int size;
 
     public SimpleArrayList(int capacity) {
@@ -19,8 +21,11 @@ public class SimpleArrayList<E> {
 
     public boolean add(E element) {
         if (size == elements.length) {
-            elements = Arrays.copyOf(elements, size * 2+1);
+            E[] newElements = (E[]) new Object[size * 2 + 1];
+            System.arraycopy(elements,0, newElements,0, size);
+            elements = newElements;
         }
+
         elements[size++] = element;
         return true;
     }
@@ -33,10 +38,12 @@ public class SimpleArrayList<E> {
         E element = elements[index];
         if(element == null) return false;
         elements[index] = null;
+
         for(int i = index; i < size-1; i++){
             elements[i] = elements[i+1];
         }
         elements[size-1] = null;
+
         size--;
         return true;
     }
@@ -53,6 +60,7 @@ public class SimpleArrayList<E> {
         }
         return true;
     }
+
     public String toString() {
         return Arrays.toString(elements);
     }

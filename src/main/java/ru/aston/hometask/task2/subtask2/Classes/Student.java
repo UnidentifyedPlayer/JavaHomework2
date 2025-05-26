@@ -6,6 +6,7 @@ import java.util.List;
 public class Student {
 
     private String name;
+
     private List<Book> books;
     
     public Student(String name, List<Book> books) {
@@ -17,7 +18,6 @@ public class Student {
     public List<Book> getBooks() {
         return books;
     }
-
 
     public void addBooks(List<Book> books) {
         this.books.addAll(books);

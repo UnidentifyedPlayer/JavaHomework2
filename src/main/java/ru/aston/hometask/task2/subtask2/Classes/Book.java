@@ -1,9 +1,13 @@
 package ru.aston.hometask.task2.subtask2.Classes;
 
 public class Book {
+
     public String title;
+
     public Integer year;
+
     public Integer pages;
+
     public Book(String title, Integer year, Integer pages) {
         this.title = title;
         this.year = year;

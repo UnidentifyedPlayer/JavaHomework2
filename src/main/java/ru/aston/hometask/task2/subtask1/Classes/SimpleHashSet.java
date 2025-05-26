@@ -2,27 +2,30 @@ package ru.aston.hometask.task2.subtask1.Classes;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SimpleHashSet<E> {
 
-    private ArrayList<LinkedList<E>> buckets;
+    private List<List<E>> buckets;
+
     private int size;
+
+    private int maskLength = 15;
 
     public SimpleHashSet() {
         size = 0;
-        var count = (1 << 15);
-        buckets = new ArrayList<LinkedList<E>>(count);
+        var count = (1 << maskLength);
+        buckets = new ArrayList<List<E>>(count);
         for (int i = 0; i < count; i++) {
             buckets.add(new LinkedList<E>());
         }
     }
 
-
     private int hash(E object){
-        return ((object.hashCode()*1031237) & (1<<20) - 1)>>5;
+        return (object.hashCode() & (1<<maskLength) - 1);
     }
 
-    private boolean checkBucket(LinkedList<E> bucket, E object){
+    private boolean checkBucket(List<E> bucket, E object){
         var objectHash = hash(object);
         if(bucket.isEmpty()) return false;
         for(E e : bucket){
@@ -33,7 +36,7 @@ public class SimpleHashSet<E> {
         return false;
     }
 
-    private LinkedList<E> getBucket(E object){
+    private List<E> getBucket(E object){
         return buckets.get(hash(object));
     }
 
@@ -46,11 +49,11 @@ public class SimpleHashSet<E> {
     }
 
     public Object[] toArray(){
-        return buckets.stream().flatMap(LinkedList::stream).toArray();
+        return buckets.stream().flatMap(List::stream).toArray();
     }
 
     public String toString(){
-        return buckets.stream().flatMap(LinkedList::stream).toList().toString();
+        return buckets.stream().flatMap(List::stream).toList().toString();
     }
 
     public boolean add(E object){
@@ -58,7 +61,7 @@ public class SimpleHashSet<E> {
         if(checkBucket(list, object)){
             return false;
         }
-        list.addLast(object);
+        list.add(object);
         size++;
         return true;
     }
